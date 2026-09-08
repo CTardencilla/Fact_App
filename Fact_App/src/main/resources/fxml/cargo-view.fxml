@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="ni.edu.uni.fact_app.controller.CargoController"
+            prefHeight="500.0"
+            prefWidth="750.0">
+
+    <!-- Encabezado de la ventana -->
+    <top>
+        <VBox spacing="10.0"
+              style="-fx-background-color: #2F5597;"
+              BorderPane.alignment="CENTER">
+
+            <padding>
+                <Insets top="15.0"
+                        right="15.0"
+                        bottom="15.0"
+                        left="15.0"/>
+            </padding>
+
+            <Label text="GESTIÓN DE CARGOS"
+                   style="-fx-text-fill: white;
+                          -fx-font-size: 22px;
+                          -fx-font-weight: bold;"/>
+
+            <Label text="Crear, consultar, editar y eliminar cargos de empleados"
+                   style="-fx-text-fill: white;
+                          -fx-font-size: 13px;"/>
+        </VBox>
+    </top>
+
+    <!-- Contenido principal -->
+    <center>
+        <VBox spacing="15.0">
+
+            <padding>
+                <Insets top="20.0"
+                        right="20.0"
+                        bottom="20.0"
+                        left="20.0"/>
+            </padding>
+
+            <Label text="Datos del cargo"
+                   style="-fx-font-size: 18px;
+                          -fx-font-weight: bold;
+                          -fx-text-fill: #333333;"/>
+
+            <!-- Formulario -->
+            <GridPane hgap="10.0" vgap="10.0">
+
+                <Label text="Código:"
+                       GridPane.columnIndex="0"
+                       GridPane.rowIndex="0"/>
+
+                <TextField fx:id="txtCodigo"
+                           promptText="Código"
+                           editable="false"
+                           prefWidth="250.0"
+                           GridPane.columnIndex="1"
+                           GridPane.rowIndex="0"/>
+
+                <Label text="Nombre:"
+                       GridPane.columnIndex="0"
+                       GridPane.rowIndex="1"/>
+
+                <TextField fx:id="txtNombre"
+                           promptText="Ingrese el nombre del cargo"
+                           prefWidth="250.0"
+                           GridPane.columnIndex="1"
+                           GridPane.rowIndex="1"/>
+
+                <Label text="Descripción:"
+                       GridPane.columnIndex="0"
+                       GridPane.rowIndex="2"/>
+
+                <TextField fx:id="txtDescripcion"
+                           promptText="Ingrese una descripción del cargo"
+                           prefWidth="350.0"
+                           GridPane.columnIndex="1"
+                           GridPane.rowIndex="2"/>
+            </GridPane>
+
+            <!-- Botones CRUD -->
+            <HBox spacing="10.0">
+
+                <Button fx:id="btnNuevo"
+                        text="Nuevo"
+                        onAction="#nuevo"
+                        style="-fx-background-color: #5B9BD5;
+                               -fx-text-fill: white;
+                               -fx-font-weight: bold;
+                               -fx-cursor: hand;"/>
+
+                <Button fx:id="btnGuardar"
+                        text="Guardar"
+                        onAction="#guardar"
+                        style="-fx-background-color: #70AD47;
+                               -fx-text-fill: white;
+                               -fx-font-weight: bold;
+                               -fx-cursor: hand;"/>
+
+                <Button fx:id="btnEditar"
+                        text="Editar"
+                        onAction="#editar"
+                        style="-fx-background-color: #ED7D31;
+                               -fx-text-fill: white;
+                               -fx-font-weight: bold;
+                               -fx-cursor: hand;"/>
+
+                <Button fx:id="btnEliminar"
+                        text="Eliminar"
+                        onAction="#eliminar"
+                        style="-fx-background-color: #C00000;
+                               -fx-text-fill: white;
+                               -fx-font-weight: bold;
+                               -fx-cursor: hand;"/>
+
+                <Button fx:id="btnLimpiar"
+                        text="Limpiar"
+                        onAction="#limpiar"
+                        style="-fx-background-color: #808080;
+                               -fx-text-fill: white;
+                               -fx-font-weight: bold;
+                               -fx-cursor: hand;"/>
+            </HBox>
+
+            <!-- Tabla de cargos -->
+            <Label text="Lista de cargos"
+                   style="-fx-font-size: 18px;
+                          -fx-font-weight: bold;
+                          -fx-text-fill: #333333;"/>
+
+            <TableView fx:id="tablaCargos"
+                       prefHeight="220.0"
+                       prefWidth="700.0">
+
+                <columns>
+
+                    <TableColumn fx:id="colCodigo"
+                                 text="Código"
+                                 prefWidth="100.0"/>
+
+                    <TableColumn fx:id="colNombre"
+                                 text="Nombre del cargo"
+                                 prefWidth="220.0"/>
+
+                    <TableColumn fx:id="colDescripcion"
+                                 text="Descripción"
+                                 prefWidth="350.0"/>
+
+                </columns>
+            </TableView>
+
+        </VBox>
+    </center>
+
+    <!-- Mensajes de estado -->
+    <bottom>
+        <Label fx:id="lblMensaje"
+               text="Listo"
+               style="-fx-background-color: #D9EAF7;
+                      -fx-text-fill: #333333;
+                      -fx-padding: 8px;"
+               BorderPane.alignment="CENTER_LEFT">
+
+            <BorderPane.margin>
+                <Insets top="5.0"
+                        right="10.0"
+                        bottom="10.0"
+                        left="10.0"/>
+            </BorderPane.margin>
+        </Label>
+    </bottom>
+
+</BorderPane>
