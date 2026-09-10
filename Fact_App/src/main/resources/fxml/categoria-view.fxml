@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -13,14 +14,16 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="uamv.edu.ni.fact_app.controller.CargoController"
-            prefHeight="500.0"
-            prefWidth="750.0">
+            fx:controller="uamv.edu.ni.fact_app.controller.CategoriaController"
+            prefHeight="520.0"
+            prefWidth="750.0"
+            style="-fx-background-color: #F4F6F8;">
 
+    <!-- Encabezado -->
     <top>
-        <VBox spacing="10.0"
-              style="-fx-background-color: #2F5597;"
-              BorderPane.alignment="CENTER">
+        <VBox alignment="CENTER"
+              spacing="10.0"
+              style="-fx-background-color: #2F5597;">
 
             <padding>
                 <Insets top="15.0"
@@ -40,6 +43,7 @@
         </VBox>
     </top>
 
+    <!-- Contenido principal -->
     <center>
         <VBox spacing="15.0">
 
@@ -65,9 +69,9 @@
                 <TextField fx:id="txtCodigo"
                            promptText="Código"
                            editable="false"
+                           prefWidth="250.0"
                            GridPane.columnIndex="1"
-                           GridPane.rowIndex="0"
-                           prefWidth="250.0"/>
+                           GridPane.rowIndex="0"/>
 
                 <Label text="Nombre:"
                        GridPane.columnIndex="0"
@@ -75,15 +79,25 @@
 
                 <TextField fx:id="txtNombre"
                            promptText="Ingrese el nombre de la categoría"
+                           prefWidth="250.0"
                            GridPane.columnIndex="1"
-                           GridPane.rowIndex="1"
-                           prefWidth="250.0"/>
+                           GridPane.rowIndex="1"/>
+
+                <Label text="Estado:"
+                       GridPane.columnIndex="0"
+                       GridPane.rowIndex="2"/>
+
+                <CheckBox fx:id="chkActivo"
+                          text="Categoría activa"
+                          selected="true"
+                          GridPane.columnIndex="1"
+                          GridPane.rowIndex="2"/>
             </GridPane>
 
+            <!-- Botones CRUD -->
             <HBox spacing="10.0">
 
                 <Button text="Nuevo"
-                        fx:id="btnNuevo"
                         onAction="#nuevo"
                         style="-fx-background-color: #5B9BD5;
                                -fx-text-fill: white;
@@ -91,7 +105,6 @@
                                -fx-cursor: hand;"/>
 
                 <Button text="Guardar"
-                        fx:id="btnGuardar"
                         onAction="#guardar"
                         style="-fx-background-color: #70AD47;
                                -fx-text-fill: white;
@@ -99,7 +112,6 @@
                                -fx-cursor: hand;"/>
 
                 <Button text="Editar"
-                        fx:id="btnEditar"
                         onAction="#editar"
                         style="-fx-background-color: #ED7D31;
                                -fx-text-fill: white;
@@ -107,7 +119,6 @@
                                -fx-cursor: hand;"/>
 
                 <Button text="Eliminar"
-                        fx:id="btnEliminar"
                         onAction="#eliminar"
                         style="-fx-background-color: #C00000;
                                -fx-text-fill: white;
@@ -115,7 +126,6 @@
                                -fx-cursor: hand;"/>
 
                 <Button text="Limpiar"
-                        fx:id="btnLimpiar"
                         onAction="#limpiar"
                         style="-fx-background-color: #808080;
                                -fx-text-fill: white;
@@ -129,7 +139,7 @@
                           -fx-text-fill: #333333;"/>
 
             <TableView fx:id="tablaCategorias"
-                       prefHeight="250.0"
+                       prefHeight="230.0"
                        prefWidth="700.0">
 
                 <columns>
@@ -140,14 +150,17 @@
 
                     <TableColumn fx:id="colNombre"
                                  text="Nombre de la categoría"
-                                 prefWidth="500.0"/>
+                                 prefWidth="400.0"/>
 
+                    <TableColumn fx:id="colActivo"
+                                 text="Activa"
+                                 prefWidth="150.0"/>
                 </columns>
             </TableView>
-
         </VBox>
     </center>
 
+    <!-- Mensajes de estado -->
     <bottom>
         <Label fx:id="lblMensaje"
                text="Listo"
@@ -155,6 +168,7 @@
                       -fx-text-fill: #333333;
                       -fx-padding: 8px;"
                BorderPane.alignment="CENTER_LEFT">
+
             <BorderPane.margin>
                 <Insets top="5.0"
                         right="10.0"

@@ -11,13 +11,12 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17"
+<BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="ni.edu.uni.fact_app.controller.CargoController"
+            fx:controller="uamv.edu.ni.fact_app.controller.CargoController"
             prefHeight="500.0"
             prefWidth="750.0">
 
-    <!-- Encabezado de la ventana -->
     <top>
         <VBox spacing="10.0"
               style="-fx-background-color: #2F5597;"
@@ -41,7 +40,6 @@
         </VBox>
     </top>
 
-    <!-- Contenido principal -->
     <center>
         <VBox spacing="15.0">
 
@@ -57,8 +55,8 @@
                           -fx-font-weight: bold;
                           -fx-text-fill: #333333;"/>
 
-            <!-- Formulario -->
-            <GridPane hgap="10.0" vgap="10.0">
+            <GridPane hgap="10.0"
+                      vgap="10.0">
 
                 <Label text="Código:"
                        GridPane.columnIndex="0"
@@ -92,43 +90,37 @@
                            GridPane.rowIndex="2"/>
             </GridPane>
 
-            <!-- Botones CRUD -->
             <HBox spacing="10.0">
 
-                <Button fx:id="btnNuevo"
-                        text="Nuevo"
+                <Button text="Nuevo"
                         onAction="#nuevo"
                         style="-fx-background-color: #5B9BD5;
                                -fx-text-fill: white;
                                -fx-font-weight: bold;
                                -fx-cursor: hand;"/>
 
-                <Button fx:id="btnGuardar"
-                        text="Guardar"
+                <Button text="Guardar"
                         onAction="#guardar"
                         style="-fx-background-color: #70AD47;
                                -fx-text-fill: white;
                                -fx-font-weight: bold;
                                -fx-cursor: hand;"/>
 
-                <Button fx:id="btnEditar"
-                        text="Editar"
+                <Button text="Editar"
                         onAction="#editar"
                         style="-fx-background-color: #ED7D31;
                                -fx-text-fill: white;
                                -fx-font-weight: bold;
                                -fx-cursor: hand;"/>
 
-                <Button fx:id="btnEliminar"
-                        text="Eliminar"
+                <Button text="Eliminar"
                         onAction="#eliminar"
                         style="-fx-background-color: #C00000;
                                -fx-text-fill: white;
                                -fx-font-weight: bold;
                                -fx-cursor: hand;"/>
 
-                <Button fx:id="btnLimpiar"
-                        text="Limpiar"
+                <Button text="Limpiar"
                         onAction="#limpiar"
                         style="-fx-background-color: #808080;
                                -fx-text-fill: white;
@@ -136,7 +128,6 @@
                                -fx-cursor: hand;"/>
             </HBox>
 
-            <!-- Tabla de cargos -->
             <Label text="Lista de cargos"
                    style="-fx-font-size: 18px;
                           -fx-font-weight: bold;
@@ -147,7 +138,6 @@
                        prefWidth="700.0">
 
                 <columns>
-
                     <TableColumn fx:id="colCodigo"
                                  text="Código"
                                  prefWidth="100.0"/>
@@ -159,14 +149,11 @@
                     <TableColumn fx:id="colDescripcion"
                                  text="Descripción"
                                  prefWidth="350.0"/>
-
                 </columns>
             </TableView>
-
         </VBox>
     </center>
 
-    <!-- Mensajes de estado -->
     <bottom>
         <Label fx:id="lblMensaje"
                text="Listo"

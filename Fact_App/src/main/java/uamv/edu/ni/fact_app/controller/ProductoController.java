@@ -7,7 +7,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
@@ -82,6 +81,7 @@ public class ProductoController {
     private void initialize() {
 
         cmbCategoria.setItems(categorias);
+        tblProductos.setItems(productos);
 
         colCodigo.setCellValueFactory(
                 new PropertyValueFactory<>("id")
@@ -107,38 +107,25 @@ public class ProductoController {
                 new PropertyValueFactory<>("activo")
         );
 
-        tblProductos.setItems(productos);
-
         chkActivo.setSelected(true);
 
         tblProductos.getSelectionModel()
                 .selectedItemProperty()
-                .addListener((observable, anterior, seleccionado) -> {
+                .addListener((observable, anterior, producto) -> {
 
-                    if (seleccionado != null) {
-                        txtCodigo.setText(
-                                seleccionado.getId()
-                        );
-                        txtNombre.setText(
-                                seleccionado.getNombre()
-                        );
-                        cmbCategoria.setValue(
-                                seleccionado.getCategoria()
-                        );
+                    if (producto != null) {
+                        txtCodigo.setText(producto.getId());
+                        txtNombre.setText(producto.getNombre());
+                        cmbCategoria.setValue(producto.getCategoria());
                         txtPrecio.setText(
-                                seleccionado.getPrecioVenta()
-                                        .toString()
+                                producto.getPrecioVenta().toString()
                         );
                         txtExistencia.setText(
-                                String.valueOf(
-                                        seleccionado.getExistencia()
-                                )
+                                String.valueOf(producto.getExistencia())
                         );
-                        chkActivo.setSelected(
-                                seleccionado.isActivo()
-                        );
+                        chkActivo.setSelected(producto.isActivo());
 
-                        cargarImagen(seleccionado.getRutaImagen());
+                        cargarImagen(producto.getRutaImagen());
                     }
                 });
     }
@@ -148,7 +135,7 @@ public class ProductoController {
 
         FileChooser chooser = new FileChooser();
 
-        chooser.setTitle("Seleccionar imagen del producto");
+        chooser.setTitle("Seleccionar imagen");
 
         chooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter(
@@ -159,11 +146,11 @@ public class ProductoController {
                 )
         );
 
-        Stage ventana = (Stage) txtCodigo
+        Stage stage = (Stage) txtCodigo
                 .getScene()
                 .getWindow();
 
-        File archivo = chooser.showOpenDialog(ventana);
+        File archivo = chooser.showOpenDialog(stage);
 
         if (archivo != null) {
             rutaImagen = archivo.toURI().toString();
@@ -188,7 +175,6 @@ public class ProductoController {
         }
 
         try {
-
             BigDecimal precio = new BigDecimal(
                     txtPrecio.getText().trim()
             );
@@ -197,18 +183,10 @@ public class ProductoController {
                     txtExistencia.getText().trim()
             );
 
-            if (precio.signum() <= 0) {
+            if (precio.signum() <= 0 || existencia < 0) {
                 mostrarMensaje(
                         Alert.AlertType.WARNING,
-                        "El precio debe ser mayor que cero."
-                );
-                return;
-            }
-
-            if (existencia < 0) {
-                mostrarMensaje(
-                        Alert.AlertType.WARNING,
-                        "La existencia no puede ser negativa."
+                        "Precio mayor que cero y existencia no negativa."
                 );
                 return;
             }
@@ -230,10 +208,9 @@ public class ProductoController {
                     "Producto guardado correctamente."
             );
 
-            limpiarCampos();
+            limpiar();
 
         } catch (NumberFormatException e) {
-
             mostrarMensaje(
                     Alert.AlertType.ERROR,
                     "Precio o existencia no válidos."
@@ -244,35 +221,30 @@ public class ProductoController {
     @FXML
     private void editar() {
 
-        Producto seleccionado = tblProductos
+        Producto producto = tblProductos
                 .getSelectionModel()
                 .getSelectedItem();
 
-        if (seleccionado == null) {
+        if (producto == null) {
             mostrarMensaje(
                     Alert.AlertType.WARNING,
-                    "Seleccione un producto de la tabla."
+                    "Seleccione un producto."
             );
             return;
         }
 
         try {
-
-            BigDecimal precio = new BigDecimal(
-                    txtPrecio.getText().trim()
+            producto.setId(txtCodigo.getText().trim());
+            producto.setNombre(txtNombre.getText().trim());
+            producto.setCategoria(cmbCategoria.getValue());
+            producto.setPrecioVenta(
+                    new BigDecimal(txtPrecio.getText().trim())
             );
-
-            int existencia = Integer.parseInt(
-                    txtExistencia.getText().trim()
+            producto.setExistencia(
+                    Integer.parseInt(txtExistencia.getText().trim())
             );
-
-            seleccionado.setId(txtCodigo.getText().trim());
-            seleccionado.setNombre(txtNombre.getText().trim());
-            seleccionado.setCategoria(cmbCategoria.getValue());
-            seleccionado.setPrecioVenta(precio);
-            seleccionado.setExistencia(existencia);
-            seleccionado.setRutaImagen(rutaImagen);
-            seleccionado.setActivo(chkActivo.isSelected());
+            producto.setRutaImagen(rutaImagen);
+            producto.setActivo(chkActivo.isSelected());
 
             tblProductos.refresh();
 
@@ -282,7 +254,6 @@ public class ProductoController {
             );
 
         } catch (NumberFormatException e) {
-
             mostrarMensaje(
                     Alert.AlertType.ERROR,
                     "Precio o existencia no válidos."
@@ -293,61 +264,53 @@ public class ProductoController {
     @FXML
     private void eliminar() {
 
-        Producto seleccionado = tblProductos
+        Producto producto = tblProductos
                 .getSelectionModel()
                 .getSelectedItem();
 
-        if (seleccionado == null) {
+        if (producto == null) {
             mostrarMensaje(
                     Alert.AlertType.WARNING,
-                    "Seleccione un producto de la tabla."
+                    "Seleccione un producto."
             );
             return;
         }
 
-        productos.remove(seleccionado);
+        productos.remove(producto);
+        limpiar();
 
         mostrarMensaje(
                 Alert.AlertType.INFORMATION,
                 "Producto eliminado correctamente."
         );
-
-        limpiarCampos();
     }
 
     @FXML
     private void limpiar() {
-        limpiarCampos();
-        lblMensaje("Campos limpiados.");
-    }
-
-    @FXML
-    private void cerrar() {
-        Stage stage = (Stage) txtCodigo
-                .getScene()
-                .getWindow();
-
-        stage.close();
-    }
-
-    private void limpiarCampos() {
 
         txtCodigo.clear();
         txtNombre.clear();
         txtPrecio.clear();
         txtExistencia.clear();
 
-        cmbCategoria.getSelectionModel()
-                .clearSelection();
+        cmbCategoria.getSelectionModel().clearSelection();
 
         chkActivo.setSelected(true);
 
         imgProducto.setImage(null);
-
         rutaImagen = null;
 
-        tblProductos.getSelectionModel()
-                .clearSelection();
+        tblProductos.getSelectionModel().clearSelection();
+    }
+
+    @FXML
+    private void cerrar() {
+
+        Stage stage = (Stage) txtCodigo
+                .getScene()
+                .getWindow();
+
+        stage.close();
     }
 
     private void cargarImagen(String ruta) {
@@ -361,17 +324,10 @@ public class ProductoController {
         }
     }
 
-    private void lblMensaje(String texto) {
-        // Este método evita depender de un Label específico.
-        // Puedes mostrar el mensaje mediante una alerta.
-        System.out.println(texto);
-    }
-
     private void mostrarMensaje(
             Alert.AlertType tipo,
             String texto
     ) {
-
         Alert alerta = new Alert(tipo);
         alerta.setTitle("Gestión de productos");
         alerta.setHeaderText(null);
