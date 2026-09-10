@@ -13,18 +13,53 @@ public class MenuPrincipalController {
 
     @FXML
     private void abrirProductos() {
+        abrirVentana(
+                "/fxml/producto-view.fxml",
+                "Gestión de productos"
+        );
+    }
+
+    @FXML
+    private void abrirCargos() {
+        abrirVentana(
+                "/fxml/cargo-view.fxml",
+                "Gestión de cargos"
+        );
+    }
+
+    @FXML
+    private void abrirCategorias() {
+        abrirVentana(
+                "/fxml/categoria-view.fxml",
+                "Gestión de categorías"
+        );
+    }
+
+    @FXML
+    private void abrirEmpleados() {
+        abrirVentana(
+                "/fxml/empleado-view.fxml",
+                "Gestión de empleados"
+        );
+    }
+
+    private void abrirVentana(
+            String rutaFXML,
+            String titulo
+    ) {
 
         try {
+
             SceneManager.abrirVentana(
-                    "/fxml/producto-view.fxml",
-                    "Gestión de productos"
+                    rutaFXML,
+                    titulo
             );
 
         } catch (IOException e) {
 
             Alert alerta = new Alert(
                     Alert.AlertType.ERROR,
-                    "No fue posible abrir Productos.\n\n"
+                    "No fue posible abrir la ventana.\n\n"
                             + e.getMessage(),
                     ButtonType.OK
             );
@@ -43,7 +78,8 @@ public class MenuPrincipalController {
                 ButtonType.CANCEL
         );
 
-        if (alerta.showAndWait().orElse(ButtonType.CANCEL)
+        if (alerta.showAndWait()
+                .orElse(ButtonType.CANCEL)
                 == ButtonType.OK) {
 
             Platform.exit();

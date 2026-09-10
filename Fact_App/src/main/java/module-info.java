@@ -3,6 +3,8 @@ module uamv.edu.ni.fact_app {
     requires javafx.controls;
     requires javafx.fxml;
 
+    requires static lombok;
+
     exports uamv.edu.ni.fact_app;
     exports uamv.edu.ni.fact_app.application;
     exports uamv.edu.ni.fact_app.controller;
