@@ -3,6 +3,11 @@ module uamv.edu.ni.fact_app {
     requires javafx.controls;
     requires javafx.fxml;
 
+    requires java.sql;
+    requires org.xerial.sqlitejdbc;
+
+    requires org.slf4j.simple;
+
     requires static lombok;
 
     exports uamv.edu.ni.fact_app;
@@ -18,5 +23,5 @@ module uamv.edu.ni.fact_app {
             to javafx.fxml;
 
     opens uamv.edu.ni.fact_app.models
-            to javafx.fxml;
+            to javafx.base, javafx.fxml;
 }
